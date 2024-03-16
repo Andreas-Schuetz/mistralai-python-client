@@ -45,7 +45,7 @@ class ClientBase(ABC):
                 parsed_function = {}
                 parsed_function["type"] = tool["type"]
                 if isinstance(tool["function"], Function):
-                    parsed_function["function"] = tool["function"].model_dump(exclude_none=True)
+                    parsed_function["function"] = tool["function"].dict(exclude_none=True)
                 else:
                     parsed_function["function"] = tool["function"]
 
@@ -60,14 +60,14 @@ class ClientBase(ABC):
 
     def _parse_response_format(self, response_format: Union[Dict[str, Any], ResponseFormat]) -> Dict[str, Any]:
         if isinstance(response_format, ResponseFormat):
-            return response_format.model_dump(exclude_none=True)
+            return response_format.dict(exclude_none=True)
         return response_format
 
     def _parse_messages(self, messages: List[Any]) -> List[Dict[str, Any]]:
         parsed_messages: List[Dict[str, Any]] = []
         for message in messages:
             if isinstance(message, ChatMessage):
-                parsed_messages.append(message.model_dump(exclude_none=True))
+                parsed_messages.append(message.dict(exclude_none=True))
             else:
                 parsed_messages.append(message)
 
